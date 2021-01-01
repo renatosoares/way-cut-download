@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  way-cut-download-php:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: .
+      dockerfile: ./services/php/Dockerfile
+    container_name: way-cut-download-php
+    restart: unless-stopped
+    working_dir: /var/www/${APP_FOLDER}
+    volumes:
+      - /var/www/${APP_FOLDER}:/var/www/${APP_FOLDER}
+    networks:
+      - way-cut-download
+
+  way-cut-download-nginx:
+    image: nginx:alpine
+    container_name: way-cut-download-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - /var/www/${APP_FOLDER}:/var/www/${APP_FOLDER}
+      - ./services/nginx/etc/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - way-cut-download
+
+networks:
+  way-cut-download:
+    driver: bridge
