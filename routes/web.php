@@ -40,7 +40,7 @@ Route::post('/media-audio', function (Request $request) {
 
     $audio = last($streamingData['adaptiveFormats']);
 
-    file_put_contents(storage_path('app/public/' . Str::kebab($video_title) . '.mp3'), fopen($audio['url'], 'r'));
+    file_put_contents(storage_path('app/public/' . Str::slug($video_title, '-') . '.mp3'), fopen($audio['url'], 'r'));
     return redirect()->route('media-audio.create');
 })->name('media-audio.store');
 

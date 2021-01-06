@@ -12,6 +12,7 @@ services:
     working_dir: /var/www/${APP_FOLDER}
     volumes:
       - /var/www/${APP_FOLDER}:/var/www/${APP_FOLDER}
+      - ./services/php/usr/local/etc/php/conf.d/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - way-cut-download
 
