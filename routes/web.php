@@ -14,6 +14,10 @@ use Illuminate\Support\Str;
 |
 */
 
+Route::get('/info', function () {
+    phpinfo();
+})->name('info');
+
 Route::get('/media-audio', function () {
     return Inertia\Inertia::render('Home');
 })->name('media-audio.create');
