@@ -68,7 +68,7 @@
         "post-install-cmd": [
             "touch database/database.sqlite",
             "@php artisan migrate",
-            "@php artisan storage:link"
+            "ln -sr storage/app/public public/storage"
         ]
     }
 }
