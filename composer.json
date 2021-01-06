@@ -66,6 +66,7 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
+            "touch database/database.sqlite",
             "@php artisan migrate"
         ]
     }
