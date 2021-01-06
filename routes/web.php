@@ -43,7 +43,7 @@ Route::post('/media-audio', function (Request $request) {
 
     // file_put_contents(storage_path('app/public/' . Str::slug($video_title, '-') . '.mp3'), fopen($audio['url'], 'r'));
     // file_put_contents(storage_path('app/public/' . Str::slug($video_title, '-') . '.txt'), $videoDetails['title']);
-    Storage::disk('public')->put(Str::slug($video_title, '-') . '.txt', $videoDetails['title']);
+    Storage::disk('public_heroku')->put(Str::slug($video_title, '-') . '.txt', $videoDetails['title']);
     return redirect()->route('media-audio.create');
 })->name('media-audio.store');
 
