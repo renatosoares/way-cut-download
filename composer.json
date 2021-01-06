@@ -17,7 +17,8 @@
         "laravel/jetstream": "^1.6",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
-        "tightenco/ziggy": "^0.9.4"
+        "tightenco/ziggy": "^0.9.4",
+        "ext-pdo_sqlite": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -26,8 +27,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
-        "heroku/heroku-buildpack-php": "*",
-        "ext-pdo_sqlite": "*"
+        "heroku/heroku-buildpack-php": "*"
     },
     "config": {
         "optimize-autoloader": true,
