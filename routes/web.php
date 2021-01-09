@@ -20,7 +20,13 @@ Route::get('/info', function () {
 })->name('info');
 
 Route::get('/media-audio', function () {
-    return Inertia\Inertia::render('Home');
+    $files = collect(Storage::files())
+        ->filter(fn ($file) => $file !== '.gitignore')
+        ->values();
+
+    return Inertia\Inertia::render('Home', compact(
+        'files',
+    ));
 })->name('media-audio.create');
 
 Route::post('/media-audio', function (Request $request) {

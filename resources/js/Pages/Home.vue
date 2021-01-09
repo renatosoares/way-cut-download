@@ -5,12 +5,31 @@
             <input type="text" name="media_audio_source_id" id="media_audio_source_id" v-model="form.media_audio_source_id"/>
             <button type="submit">Send</button>
         </form>
+
+        <div>
+            <div
+                v-for="(file, key) in files"
+                :key=key
+            >
+                <a
+                    :href="`/storage/${file}`"
+
+                >
+                    {{ file }}
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 
 export default {
+    props: {
+        files: {
+            type: Array,
+        }
+    },
     data() {
         return {
             form: this.$inertia.form(
