@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,10 +15,6 @@ use Illuminate\Support\Str;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/info', function () {
-    phpinfo();
-})->name('info');
 
 Route::get('/media-audio', function () {
     $files = collect(Storage::files())
@@ -49,9 +46,13 @@ Route::post('/media-audio', function (Request $request) {
 
     // file_put_contents(storage_path('app/public/' . Str::slug($video_title, '-') . '.mp3'), fopen($audio['url'], 'r'));
     Storage::put(Str::slug($video_title, '-') . '.txt', $videoDetails['title']);
-    return redirect()->route('media-audio.create');
+
+    return Redirect::back()->with('success', 'File saved.');
 })->name('media-audio.store');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+Route::delete('/media-audio/{file_path}', function (Request $request) {
+
+    Storage::delete($request->file_path);
+
+    return Redirect::back()->with('success', 'File deleted.');
+})->name('media-audio.destroy');

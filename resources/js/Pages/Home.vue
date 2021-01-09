@@ -17,6 +17,7 @@
                 >
                     {{ file }}
                 </a>
+                <button tabindex="-1" type="button" @click="destroy(file)">Delete file</button>
             </div>
         </div>
     </div>
@@ -50,6 +51,11 @@ export default {
             this.form.post('/media-audio', {
                 preserveScroll: true
             });
+        },
+        destroy(filePath) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                this.$inertia.delete(this.route('media-audio.destroy', filePath))
+            }
         },
     },
 };
