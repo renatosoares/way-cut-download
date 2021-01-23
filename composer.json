@@ -63,8 +63,10 @@
         ],
         "post-install-cmd": [
             "touch database/database.sqlite",
+            "@php artisan queue:table",
             "@php artisan migrate",
-            "ln -sr storage/app/public public/storage"
+            "ln -sr storage/app/public public/storage",
+            "@php artisan queue:work"
         ]
     }
 }

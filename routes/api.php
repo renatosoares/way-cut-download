@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ProcessMediaAudio;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -32,7 +33,6 @@ Route::get('/accessible-media-audio', function (Request $request) {
         data_get($info, 'player_response', []),
         true
     );
-
 
     $videoDetails =  data_get($videoData, 'videoDetails', []);
     $streamingData = data_get($videoData, 'streamingData', []);
@@ -70,8 +70,10 @@ Route::get('/media-audio', function () {
 })->name('media-audio.index');
 
 Route::post('/media-audio', function (Request $request) {
-    //Storage::put(Str::slug($request->audio_title, '-') . '.mp3', file_get_contents($request->audio_url));
-    Storage::put(Str::slug($request->audio_title, '-') . '.txt', $request->audio_title);
+    ProcessMediaAudio::dispatch([
+        'title' => $request->audio_title,
+        'url' => $request->audio_url,
+    ]);
 
     return response()->json([
         'status' => 'success',
