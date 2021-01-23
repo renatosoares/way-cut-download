@@ -18,15 +18,7 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/media-audio', function () {
-    $files = collect(Storage::files())
-        ->filter(fn ($file) => $file !== '.gitignore')
-        ->values();
-
-    return response()->json($files);
-})->name('media-audio.index');
-
-Route::post('/media-audio', function (Request $request) {
+Route::get('/accessible-media-audio', function (Request $request) {
     $vid = $request->media_audio_source_id;
 
     parse_str(
@@ -45,12 +37,41 @@ Route::post('/media-audio', function (Request $request) {
     $videoDetails =  data_get($videoData, 'videoDetails', []);
     $streamingData = data_get($videoData, 'streamingData', []);
 
-    $video_title = data_get($videoDetails, 'title', 'untitled');
+    $title = data_get($videoDetails, 'title', 'untitled');
 
-    $audio = last(data_get($streamingData, 'adaptiveFormats', []));
+    $adaptiveFormats = collect(data_get($streamingData, 'adaptiveFormats', []));
 
-    //Storage::put(Str::slug($video_title, '-') . '.mp3', file_get_contents(data_get($audio, 'url', '')));
-    Storage::put(Str::slug($video_title, '-') . '.txt', $video_title);
+    $audios = $adaptiveFormats->filter(function ($formats) {
+        return Str::startsWith(
+            data_get($formats, 'mimeType', ''),
+            'audio'
+        );
+    })
+        ->map(function ($formats) use ($title){
+            return [
+                'title' => $title,
+                'approxDurationMs' => data_get($formats, 'approxDurationMs', ''),
+                'audioQuality' => data_get($formats, 'audioQuality', ''),
+                'mimeType' => data_get($formats, 'mimeType', ''),
+                'url' => data_get($formats, 'url', ''),
+            ];
+        })
+        ->values();
+
+    return response()->json($audios);
+});
+
+Route::get('/media-audio', function () {
+    $files = collect(Storage::files())
+        ->filter(fn ($file) => $file !== '.gitignore')
+        ->values();
+
+    return response()->json($files);
+})->name('media-audio.index');
+
+Route::post('/media-audio', function (Request $request) {
+    //Storage::put(Str::slug($request->audio_title, '-') . '.mp3', file_get_contents($request->audio_url));
+    Storage::put(Str::slug($request->audio_title, '-') . '.txt', $request->audio_title);
 
     return response()->json([
         'status' => 'success',
