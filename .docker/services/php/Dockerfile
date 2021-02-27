@@ -6,6 +6,9 @@ ARG uid
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    python \
+    ffmpeg \
     git \
     curl \
     libpng-dev \
@@ -13,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip
+
+RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+RUN chmod a+rx /usr/local/bin/youtube-dl
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

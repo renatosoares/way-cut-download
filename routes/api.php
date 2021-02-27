@@ -87,3 +87,9 @@ Route::delete('/media-audio/{file_path}', function (Request $request) {
 
     return Redirect::back()->with('success', 'File deleted.');
 })->name('media-audio.destroy');
+
+Route::post('/download-audio', function (Request $request) {
+    $cmd = 'youtube-dl -i --extract-audio --audio-format mp3 --audio-quality 0 --output "' . storage_path('app/public/') . '%(uploader)s%(title)s.%(ext)s" --restrict-filenames ' . $request->video_url;
+
+    return response()->json(shell_exec($cmd));
+});
