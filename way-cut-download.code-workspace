@@ -5,6 +5,7 @@
             "name": "way-cut-download"
 		}
 	],
-	"settings": {
+    "settings": {
+        "intelephense.environment.phpVersion": "8.0.0"
     }
 }
