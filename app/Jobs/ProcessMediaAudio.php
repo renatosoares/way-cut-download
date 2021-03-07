@@ -15,7 +15,7 @@ class ProcessMediaAudio implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 300;
+    public $timeout = 600;
     public $tries = 3;
     protected array $dataSource;
     /**
@@ -35,6 +35,7 @@ class ProcessMediaAudio implements ShouldQueue
      */
     public function handle()
     {
+        logger('start process', [$this->dataSource['title']]);
         Storage::put(
             sprintf('%s.mp3', Str::slug($this->dataSource['title'], '-')),
             file_get_contents($this->dataSource['url']),
