@@ -38,8 +38,7 @@ class ProcessMediaAudio implements ShouldQueue
         logger('start process', [$this->dataSource['title']]);
         Storage::put(
             sprintf('%s.mp3', Str::slug($this->dataSource['title'], '-')),
-            file_get_contents($this->dataSource['url']),
-            ['lock' => true]
+            file_get_contents($this->dataSource['url'])
         );
     }
 }
