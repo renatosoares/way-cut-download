@@ -70,10 +70,17 @@ Route::get('/media-audio', function () {
 })->name('media-audio.index');
 
 Route::post('/media-audio', function (Request $request) {
-    ProcessMediaAudio::dispatch([
-        'title' => $request->audio_title,
-        'url' => $request->audio_url,
-    ]);
+    // ProcessMediaAudio::dispatch([
+    //     'title' => $request->audio_title,
+    //     'url' => $request->audio_url,
+    // ]);
+
+
+    Storage::put(
+        sprintf('%s.mp3', Str::slug($request->audio_title, '-')),
+        file_get_contents($request->audio_url),
+        ['lock' => true]
+    );
 
     return response()->json([
         'status' => 'success',
