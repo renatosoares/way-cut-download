@@ -65,7 +65,7 @@
             "touch database/database.sqlite",
             "@php artisan migrate",
             "rm -f public/storage",
-            "@php artisan storage:link"
+            "ln -sr storage/app/public public/storage"
         ]
     }
 }
