@@ -78,10 +78,6 @@ Route::post('/media-audio', function (Request $request) {
     return response()->json([
         'status' => 'success',
         'message' => 'File saved',
-        'data' => [
-            'title' => $request->audio_title,
-            'url' => $request->audio_url,
-        ]
     ]);
 })->name('media-audio.store');
 
