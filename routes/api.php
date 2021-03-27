@@ -76,6 +76,29 @@ Route::post('/media-audio', function (Request $request) {
         md5(uniqid(rand(), true))
     );
 
+    $handle1 = fopen(
+        $request->audio_url, "r"
+    );
+
+    $handle2 = fopen(
+        storage_path('app/public/' . $fileName), "w"
+    );
+
+    stream_copy_to_stream($handle1, $handle2);
+
+    fclose($handle1);
+    fclose($handle2);
+
+    logger('file', [Storage::url($fileName)]);
+
+    return 0;
+
+    $fileName = sprintf(
+        '%s_%s.mp3',
+        Str::slug($request->audio_title, '-'),
+        md5(uniqid(rand(), true))
+    );
+
     Storage::put(
         $fileName,
         file_get_contents($request->audio_url),
