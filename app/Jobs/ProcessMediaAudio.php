@@ -38,7 +38,7 @@ class ProcessMediaAudio implements ShouldQueue
     {
         logger('start process', [$this->dataSource]);
 
-        Http::timeout(1200)->post(route('media-audio.store'), [
+        Http::post(route('media-audio.store'), [
             'audio_title' => $this->dataSource['audio_title'],
             'audio_url' => $this->dataSource['audio_url'],
         ]);
