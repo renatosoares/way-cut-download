@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -35,15 +36,20 @@ class ProcessMediaAudio implements ShouldQueue
      */
     public function handle()
     {
-        logger('start process', [$this->dataSource, storage_path()]);
+        logger('start process', [storage_path()]);
 
-        $fileName = sprintf('%s.mp3', Str::slug($this->dataSource['title'], '-'));
+        // $fileName = sprintf('%s.mp3', Str::slug($this->dataSource['title'], '-'));
+        // $fileName = sprintf('test_%s.txt', md5(uniqid(rand(), true)));
 
-        Storage::put(
-            $fileName,
-            file_get_contents($this->dataSource['url']),
-            ['lock' => true]
-        );
-        logger('file', [Storage::url($fileName)]);
+        // Storage::put(
+        //     $fileName,
+        //     file_get_contents($this->dataSource['url']),
+        //     ['lock' => true]
+        // );
+
+        $response = Http::post(route('media-audio.job'));
+
+        // logger('file', [Storage::url($fileName), Storage::get($fileName)]);
+
     }
 }

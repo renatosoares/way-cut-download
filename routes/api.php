@@ -70,6 +70,25 @@ Route::get('/media-audio', function () {
 })->name('media-audio.index');
 
 Route::post('/media-audio', function (Request $request) {
+
+    $fileName = sprintf('test_%s.txt', md5(uniqid(rand(), true)));
+
+    Storage::put(
+        $fileName,
+        'test123',
+        ['lock' => true]
+    );
+
+    logger('file', [Storage::url($fileName), Storage::get($fileName)]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'File saved',
+    ]);
+})->name('media-audio.store');
+
+Route::post('/media-audio/job', function (Request $request) {
+
     ProcessMediaAudio::dispatch([
         'title' => $request->audio_title,
         'url' => $request->audio_url,
@@ -77,9 +96,9 @@ Route::post('/media-audio', function (Request $request) {
 
     return response()->json([
         'status' => 'success',
-        'message' => 'File saved',
+        'message' => 'File processing',
     ]);
-})->name('media-audio.store');
+})->name('media-audio.job');
 
 Route::delete('/media-audio/{file_path}', function (Request $request) {
 
