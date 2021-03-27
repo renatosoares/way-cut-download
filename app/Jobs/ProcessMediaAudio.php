@@ -36,20 +36,11 @@ class ProcessMediaAudio implements ShouldQueue
      */
     public function handle()
     {
-        logger('start process', [storage_path()]);
+        logger('start process', [$this->dataSource]);
 
-        // $fileName = sprintf('%s.mp3', Str::slug($this->dataSource['title'], '-'));
-        // $fileName = sprintf('test_%s.txt', md5(uniqid(rand(), true)));
-
-        // Storage::put(
-        //     $fileName,
-        //     file_get_contents($this->dataSource['url']),
-        //     ['lock' => true]
-        // );
-
-        $response = Http::post(route('media-audio.store'));
-
-        // logger('file', [Storage::url($fileName), Storage::get($fileName)]);
-
+        Http::post(route('media-audio.store'), [
+            'audio_title' => $this->dataSource['audio_title'],
+            'audio_url' => file_get_contents($this->dataSource['audio_url']),
+        ]);
     }
 }
