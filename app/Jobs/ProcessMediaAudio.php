@@ -47,7 +47,7 @@ class ProcessMediaAudio implements ShouldQueue
         //     ['lock' => true]
         // );
 
-        $response = Http::post(route('media-audio.job'));
+        $response = Http::post(route('media-audio.store'));
 
         // logger('file', [Storage::url($fileName), Storage::get($fileName)]);
 
