@@ -78,11 +78,11 @@ Route::post('/media-audio', function (Request $request) {
 
     Storage::put(
         $fileName,
-        $request->audio_url,
+        file_get_contents($request->audio_url),
         ['lock' => true]
     );
 
-    logger('file', [Storage::url($fileName), Storage::get($fileName)]);
+    logger('file', [Storage::url($fileName)]);
 
     return response()->json([
         'status' => 'success',

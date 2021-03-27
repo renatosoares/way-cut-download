@@ -40,7 +40,7 @@ class ProcessMediaAudio implements ShouldQueue
 
         Http::post(route('media-audio.store'), [
             'audio_title' => $this->dataSource['audio_title'],
-            'audio_url' => file_get_contents($this->dataSource['audio_url']),
+            'audio_url' => $this->dataSource['audio_url'],
         ]);
     }
 }
