@@ -16,7 +16,7 @@ class ProcessMediaAudio implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 1200;
+    public $timeout = 12000;
     public $tries = 3;
     protected array $dataSource;
     /**
@@ -36,9 +36,9 @@ class ProcessMediaAudio implements ShouldQueue
      */
     public function handle()
     {
-        logger('start process', [$this->dataSource]);
+        logger('start process', [$this->dataSource['audio_title']]);
 
-        Http::post(route('media-audio.store'), [
+        Http::timeout(12000)->post(route('media-audio.store'), [
             'audio_title' => $this->dataSource['audio_title'],
             'audio_url' => $this->dataSource['audio_url'],
         ]);

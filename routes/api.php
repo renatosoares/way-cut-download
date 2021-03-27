@@ -91,22 +91,6 @@ Route::post('/media-audio', function (Request $request) {
 
     logger('file', [Storage::url($fileName)]);
 
-    return 0;
-
-    $fileName = sprintf(
-        '%s_%s.mp3',
-        Str::slug($request->audio_title, '-'),
-        md5(uniqid(rand(), true))
-    );
-
-    Storage::put(
-        $fileName,
-        file_get_contents($request->audio_url),
-        ['lock' => true]
-    );
-
-    logger('file', [Storage::url($fileName)]);
-
     return response()->json([
         'status' => 'success',
         'message' => 'File saved',
