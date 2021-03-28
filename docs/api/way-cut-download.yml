@@ -1,0 +1,91 @@
+openapi: 3.0.0
+servers:
+  - description: Server API Heroku
+    url: https://way-cut-download.herokuapp.com
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/renatosoarespro/way-cut-download/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Way Cut Download API
+  contact:
+    email: dev@renatosoares.dev
+    name: Renato Soares
+    url: https://renatosoares.dev
+tags:
+  - name: Acessible Media Audio
+  - name: Media Audio
+
+paths:
+  /accessible-media-audio:
+    get:
+      tags:
+        - Acessible Media Audio
+      summary: Search for available audio media
+      operationId: acessibleMediaAudio
+      description: |
+        List of available audio formats
+      parameters:
+        - in: query
+          name: media_audio_source_id
+          description: pass an id media
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaInfo'
+        '400':
+          description: bad input parameter
+  /media-audio/job:
+    post:
+      tags:
+        - Media Audio
+      summary: adds an item media
+      operationId: proccessMedia
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+
+  /media-audio:
+    get:
+      tags:
+        - Media Audio
+      summary: return items media
+      operationId: indexMedia
+      description: Adds an item to the system
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaIndex'
+        '400':
+          description: bad input parameter
+components:
+  schemas:
+    MediaInfo:
+      type: object
+      properties:
+        title:
+          type: string
+        approxDurationMs:
+          type: string
+        audioQuality:
+          type: string
+        mimeType:
+          type: string
+        url:
+          type: string
+    MediaIndex:
+      type: string
